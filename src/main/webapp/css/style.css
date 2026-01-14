@@ -1,0 +1,83 @@
+.paper-texture {
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuAJXUKJSQIYIfgnCmkY_V7ZWzeLF1jfo3bmFjXzRzIeM2zsuFvjG92tLZtCm0vw178xX9cZB8_r2igdPvA7TIdp2ykDg_mY6RrcrrDLrIpdBehn88v3RJXCHw53-A06CS9WNJQ-22Z_xcTamcQGrSAju_a__df-ngJbwdq5a6XN1TFusPwc_BchQlr6rYGF-sz6r--0ILYJFRU9eB_OX_H-f6O9I5Fsv1A_MaYbgYMgvZXs3x9KDOKNIbVbaY0o8ECcT9CALheb0-M);
+}
+
+.doodle-border {
+    border: 2px solid #1b0e10;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.comic-border {
+    border: 3px solid #1b0e10;
+    box-shadow: 6px 6px 0 0 #1b0e10;
+}
+
+.comic-border-hover:hover {
+    box-shadow: 2px 2px 0 0 #1b0e10;
+    transform: translate(4px, 4px);
+    transition: all 0.2s ease-in-out;
+}
+
+.sticker-rotate-left {
+    transform: rotate(-12deg);
+}
+
+.sticker-rotate-right {
+    transform: rotate(8deg);
+}
+
+.doodle-line {
+    border-bottom: 2px dashed #1b0e10;
+}
+
+.hard-shadow {
+    box-shadow: 8px 8px 0 0 #1b0e10;
+}
+
+.hard-shadow-sm {
+    box-shadow: 4px 4px 0 0 #d7193f;
+}
+
+.tilt-left {
+    transform: rotate(-1deg);
+}
+
+.tilt-right {
+    transform: rotate(1.5deg);
+}
+
+.kraft-texture {
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuBOdyPg4uRKL76Rg4gzc7o6gyrKyZfiA233adrCI33TFuMDcHO-YaqjY-EGxzzhmUBcY5HFn3VI7b5qFAD8fsj59hBW_QLiqyzAyMpUPZvOAwTEyr7njRpE-SAZO2ayDMwDMIMC5-0lyuiwjVdsWm1JKvFBRE7ibqGfbDDnszYjRzPwV6oW1pwimwV8wZ9DdJGgEv3Vh03WpFeMhZukRtjy1fVsoOd1jZxzQ5YGvaTvKmOw1iEi_vZxMC4KYSx_R03DY7Es3lTFVzI);
+}
+
+.card-tilt-1 {
+    transform: rotate(-1.5deg);
+}
+
+.card-tilt-2 {
+    transform: rotate(1.2deg);
+}
+
+.card-tilt-3 {
+    transform: rotate(-0.8deg);
+}
+
+.kissfam-background {
+    background: linear-gradient(135deg, #fdf4f3, #fbe9dd);
+}
+
+.kissfam-center-card {
+    background: rgba(255, 250, 246, 0.96);
+}
+
+.kissfam-metrics {
+    backdrop-filter: blur(12px);
+}
