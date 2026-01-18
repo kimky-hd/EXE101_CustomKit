@@ -81,3 +81,7 @@
 .kissfam-metrics {
     backdrop-filter: blur(12px);
 }
+
+.page-blur {
+    filter: blur (4px);
+}

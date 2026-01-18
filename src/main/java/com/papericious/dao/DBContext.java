@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBContext {
-    private final String url = "jdbc:mysql://localhost:3306/kisskit_db?useSSL=false&serverTimezone=UTC";
+    private final String url = "jdbc:mysql://localhost:3306/kisskit_db?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf8&serverTimezone=UTC";
     private final String user = "root";
     private final String password = "1234";
 
@@ -27,4 +27,3 @@ public class DBContext {
         }
     }
 }
-
