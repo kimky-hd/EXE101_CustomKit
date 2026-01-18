@@ -248,7 +248,7 @@
                 </div>
             </div>
         </div>
-        <section class="px-6 md:px-20 py-20 bg-doodle-black text-white mt-12">
+        <section class="px-6 md:px-20 py-20 bg-primary/5 text-white mt-12">
             <div class="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
                 <div class="flex flex-col gap-4 border-l-4 border-primary pl-6">
                     <span class="material-symbols-outlined text-4xl text-primary">draw</span>
