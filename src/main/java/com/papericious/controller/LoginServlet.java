@@ -30,35 +30,42 @@ public class LoginServlet extends HttpServlet {
 
         if (email != null) email = email.trim();
 
-        // Set attribute for repopulation
-        request.setAttribute("loginEmail", email);
+        HttpSession session = request.getSession();
 
         if (email == null || email.isBlank() || password == null || password.isBlank()) {
-            request.setAttribute("loginError", "Vui lòng nhập đầy đủ email và mật khẩu.");
-            request.setAttribute("openAuthModal", "login");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            session.setAttribute("loginError", "Vui lòng nhập đầy đủ email và mật khẩu.");
+            session.setAttribute("openAuthModal", "login");
+            session.setAttribute("loginEmail", email);
+            response.sendRedirect("index.jsp");
             return;
         }
 
         if (!ValidationUtil.isValidEmail(email)) {
-            request.setAttribute("loginError", "Email không đúng định dạng.");
-            request.setAttribute("openAuthModal", "login");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            session.setAttribute("loginError", "Email không đúng định dạng.");
+            session.setAttribute("openAuthModal", "login");
+            session.setAttribute("loginEmail", email);
+            response.sendRedirect("index.jsp");
             return;
         }
 
         Account account = accountDAO.findByEmail(email);
         if (account == null || !"ACTIVE".equalsIgnoreCase(account.getStatus())
                 || !PasswordUtil.verifyPassword(password, account.getPasswordHash())) {
-            request.setAttribute("loginError", "Email hoặc mật khẩu không đúng, hoặc tài khoản đang bị khóa.");
-            request.setAttribute("openAuthModal", "login");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            session.setAttribute("loginError", "Email hoặc mật khẩu không đúng, hoặc tài khoản đang bị khóa.");
+            session.setAttribute("openAuthModal", "login");
+            session.setAttribute("loginEmail", email);
+            response.sendRedirect("index.jsp");
             return;
         }
 
         // Đăng nhập thành công
         account.setPasswordHash(null); // không giữ hash trong session
-        HttpSession session = request.getSession(true);
+        
+        // Clean up temporary session attributes
+        session.removeAttribute("loginEmail");
+        session.removeAttribute("loginError");
+        session.removeAttribute("openAuthModal");
+        
         session.setAttribute("currentUser", account);
 
         response.sendRedirect("index.jsp");

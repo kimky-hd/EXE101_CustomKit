@@ -757,9 +757,9 @@
                             <h1 class="text-3xl font-black text-doodle-black dark:text-white">HEY THERE!</h1>
                             <p class="text-[#974e5d] dark:text-zinc-400">Đăng nhập vào Kiss Kit</p>
                         </div>
-                        <% String loginError=(String) request.getAttribute("loginError"); if (loginError !=null) { %>
+                        <% if (session.getAttribute("loginError") !=null) { %>
                             <div class="px-4 py-3 rounded-lg border-2 border-red-600 bg-red-50 text-red-700 font-bold">
-                                <%= loginError %>
+                                ${sessionScope.loginError}
                             </div>
                             <% } %>
                                 <form method="post" action="<%=request.getContextPath()%>/login" class="space-y-4">
@@ -767,6 +767,7 @@
                                         <span
                                             class="text-doodle-black dark:text-white text-sm font-bold uppercase tracking-wider ml-1">Email</span>
                                         <input name="email" type="email"
+                                            value="${not empty sessionScope.loginEmail ? sessionScope.loginEmail : ''}"
                                             class="mt-1 w-full rounded-xl border-4 border-doodle-black bg-white dark:bg-zinc-800 p-4 text-doodle-black dark:text-white focus:ring-0 focus:border-primary placeholder:text-zinc-400 font-medium transition-all"
                                             placeholder="email@domain.com" />
                                     </div>
@@ -915,6 +916,8 @@
                         var initial = '${sessionScope.openAuthModal}';
                         if (initial === 'register') {
                             openAuth('register');
+                        } else if (initial === 'login') {
+                            openAuth('login');
                         }
                     })();
             </script>
