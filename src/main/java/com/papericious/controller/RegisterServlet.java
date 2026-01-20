@@ -35,61 +35,69 @@ public class RegisterServlet extends HttpServlet {
         if (email != null) email = email.trim();
         if (phone != null) phone = phone.trim();
 
-        // Set attributes for repopulation in case of error
-        request.setAttribute("regFullName", fullName);
-        request.setAttribute("regEmail", email);
-        request.setAttribute("regPhone", phone);
+        // Use Session to store temp data for redirect
+        HttpSession session = request.getSession();
+        session.setAttribute("regFullName", fullName);
+        session.setAttribute("regEmail", email);
+        session.setAttribute("regPhone", phone);
 
         if (fullName == null || fullName.isBlank()
                 || email == null || email.isBlank()
                 || password == null || password.isBlank()
                 || confirmPassword == null || confirmPassword.isBlank()) {
 
-            request.setAttribute("registerError", "Vui lòng nhập đầy đủ các trường bắt buộc.");
-            request.setAttribute("openAuthModal", "register");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            session.setAttribute("registerError", "Vui lòng nhập đầy đủ các trường bắt buộc.");
+            session.setAttribute("openAuthModal", "register");
+            response.sendRedirect("index.jsp");
             return;
         }
 
         if (!ValidationUtil.isValidEmail(email)) {
-            request.setAttribute("registerError", "Email không hợp lệ (ví dụ: user@example.com).");
-            request.setAttribute("openAuthModal", "register");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            session.setAttribute("registerError", "Email không hợp lệ (ví dụ: user@example.com).");
+            session.setAttribute("openAuthModal", "register");
+            response.sendRedirect("index.jsp");
             return;
         }
 
         if (!ValidationUtil.isValidPhoneNumber(phone)) {
-            request.setAttribute("registerError", "Số điện thoại không hợp lệ (phải có 10-11 số).");
-            request.setAttribute("openAuthModal", "register");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            session.setAttribute("registerError", "Số điện thoại không hợp lệ (phải có 10-11 số).");
+            session.setAttribute("openAuthModal", "register");
+            response.sendRedirect("index.jsp");
             return;
         }
 
         if (!password.equals(confirmPassword)) {
-            request.setAttribute("registerError", "Mật khẩu xác nhận không khớp.");
-            request.setAttribute("openAuthModal", "register");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            session.setAttribute("registerError", "Mật khẩu xác nhận không khớp.");
+            session.setAttribute("openAuthModal", "register");
+            response.sendRedirect("index.jsp");
             return;
         }
 
         if (!ValidationUtil.isValidPassword(password)) {
-            request.setAttribute("registerError", "Mật khẩu phải có ít nhất 8 ký tự, bao gồm cả chữ và số.");
-            request.setAttribute("openAuthModal", "register");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            session.setAttribute("registerError", "Mật khẩu phải có ít nhất 8 ký tự, bao gồm cả chữ và số.");
+            session.setAttribute("openAuthModal", "register");
+            response.sendRedirect("index.jsp");
             return;
         }
 
         if (accountDAO.emailExists(email)) {
-            request.setAttribute("registerError", "Email đã được sử dụng. Vui lòng chọn email khác.");
-            request.setAttribute("openAuthModal", "register");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            session.setAttribute("registerError", "Email đã được sử dụng. Vui lòng chọn email khác.");
+            session.setAttribute("openAuthModal", "register");
+            response.sendRedirect("index.jsp");
             return;
         }
 
         try {
             Account acc = accountDAO.create(email, password, fullName, phone);
             acc.setPasswordHash(null);
-            HttpSession session = request.getSession(true);
+            
+            // Register success: clear temp data
+            session.removeAttribute("regFullName");
+            session.removeAttribute("regEmail");
+            session.removeAttribute("regPhone");
+            session.removeAttribute("registerError");
+            session.removeAttribute("openAuthModal");
+            
             session.setAttribute("currentUser", acc);
 
             response.sendRedirect("index.jsp");
@@ -111,9 +119,9 @@ public class RegisterServlet extends HttpServlet {
             } else {
                 msg = "Có lỗi xảy ra khi tạo tài khoản. Vui lòng thử lại.";
             }
-            request.setAttribute("registerError", msg);
-            request.setAttribute("openAuthModal", "register");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            session.setAttribute("registerError", msg);
+            session.setAttribute("openAuthModal", "register");
+            response.sendRedirect("index.jsp");
         }
     }
 

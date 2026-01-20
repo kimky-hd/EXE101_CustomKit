@@ -1,0 +1,15 @@
+SET NAMES utf8mb4;
+SET CHARACTER SET utf8mb4;
+SET collation_connection = 'utf8mb4_unicode_ci';
+
+CREATE TABLE IF NOT EXISTS `account` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `email` VARCHAR(255) NOT NULL UNIQUE,
+  `password_hash` VARCHAR(64) NOT NULL,
+  `full_name` VARCHAR(255),
+  `phone` VARCHAR(32),
+  `role` VARCHAR(32) DEFAULT 'USER',
+  `status` VARCHAR(32) DEFAULT 'ACTIVE',
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
