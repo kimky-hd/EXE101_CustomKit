@@ -711,6 +711,8 @@
                 </div>
             </main>
 
+            <jsp:include page="common/faq_section.jsp" />
+
             <jsp:include page="common/footer.jsp" />
         </div>
         <div id="authOverlay" class="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm hidden"></div>
