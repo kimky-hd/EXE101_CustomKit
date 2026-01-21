@@ -3,17 +3,17 @@
     <header
         class="fixed top-0 inset-x-0 z-50 w-full border-b-2 border-doodle-black bg-white/90 dark:bg-background-dark/90 backdrop-blur-sm px-6 lg:px-20 py-4">
         <div class="max-w-[1200px] mx-auto flex items-center justify-between">
-            <div class="flex items-center gap-3">
+            <a href="index.jsp" class="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer">
                 <div class="bg-primary p-1 rounded-lg rotate-[-3deg] shadow-hard">
                     <span class="material-symbols-outlined text-white text-2xl">brush</span>
                 </div>
                 <h2 class="text-2xl font-black tracking-tighter uppercase italic">Kiss Kit</h2>
-            </div>
+            </a>
             <nav class="hidden md:flex items-center gap-10">
                 <a class="font-bold hover:text-primary transition-colors" href="#">SẢN PHẨM</a>
                 <a class="font-bold hover:text-primary transition-colors" href="#">HƯỚNG DẪN</a>
                 <a class="font-bold hover:text-primary transition-colors" href="#">CẢM HỨNG</a>
-                <a class="font-bold hover:text-primary transition-colors" href="#">LIÊN HỆ</a>
+                <a class="font-bold hover:text-primary transition-colors" href="contact.jsp">LIÊN HỆ</a>
             </nav>
             <% com.papericious.model.Account currentUser=(com.papericious.model.Account)
                 session.getAttribute("currentUser"); %>
