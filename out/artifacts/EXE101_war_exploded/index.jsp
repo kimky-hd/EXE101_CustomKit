@@ -711,7 +711,7 @@
                 </div>
             </main>
 
-            <jsp:include page="common/faq_section.jsp" />
+
 
             <jsp:include page="common/footer.jsp" />
         </div>
