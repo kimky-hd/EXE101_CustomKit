@@ -18,8 +18,22 @@ public class ContactAdminServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<ContactMessage> messages = contactDAO.getAllMessages();
+        String status = req.getParameter("status");
+        String from = req.getParameter("from");
+        String to = req.getParameter("to");
+
+        List<ContactMessage> messages;
+        if ((status != null && !status.isEmpty()) || (from != null && !from.isEmpty()) || (to != null && !to.isEmpty())) {
+             messages = contactDAO.searchMessages(status, from, to);
+        } else {
+             messages = contactDAO.getAllMessages();
+        }
+        
         req.setAttribute("messages", messages);
+        req.setAttribute("searchStatus", status);
+        req.setAttribute("searchFrom", from);
+        req.setAttribute("searchTo", to);
+        
         req.getRequestDispatcher("/admin/contact-list.jsp").forward(req, resp);
     }
 

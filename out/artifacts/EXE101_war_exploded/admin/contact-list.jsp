@@ -54,28 +54,39 @@
                     </div>
 
                     <!-- Filter Bar (Fiori Style) -->
-                    <div
+                    <form action="${pageContext.request.contextPath}/admin/contacts" method="get"
                         class="bg-surface-light rounded-lg shadow-sm border border-gray-200 p-4 mb-6 flex flex-wrap gap-4 items-end">
                         <div class="flex-1 min-w-[200px]">
                             <label class="block text-xs font-medium text-gray-500 mb-1">Status</label>
-                            <select
+                            <select name="status"
                                 class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm">
-                                <option value="ALL">All Statuses</option>
-                                <option value="NEW">New</option>
-                                <option value="READ">Read</option>
-                                <option value="REPLIED">Replied</option>
+                                <option value="ALL" ${searchStatus=='ALL' ? 'selected' : '' }>All Statuses</option>
+                                <option value="NEW" ${searchStatus=='NEW' ? 'selected' : '' }>New</option>
+                                <option value="READ" ${searchStatus=='READ' ? 'selected' : '' }>Read</option>
+                                <option value="REPLIED" ${searchStatus=='REPLIED' ? 'selected' : '' }>Replied</option>
                             </select>
                         </div>
-                        <div class="flex-1 min-w-[200px]">
-                            <label class="block text-xs font-medium text-gray-500 mb-1">Date Range</label>
-                            <input type="date"
+                        <div class="flex-1 min-w-[150px]">
+                            <label class="block text-xs font-medium text-gray-500 mb-1">From Date</label>
+                            <input type="date" name="from" value="${searchFrom}"
                                 class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" />
                         </div>
-                        <button
-                            class="bg-primary hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md shadow-sm transition-colors text-sm">
-                            Go
-                        </button>
-                    </div>
+                        <div class="flex-1 min-w-[150px]">
+                            <label class="block text-xs font-medium text-gray-500 mb-1">To Date</label>
+                            <input type="date" name="to" value="${searchTo}"
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" />
+                        </div>
+                        <div class="flex gap-2">
+                            <a href="${pageContext.request.contextPath}/admin/contacts"
+                                class="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-md shadow-sm transition-colors text-sm flex items-center justify-center">
+                                Reset
+                            </a>
+                            <button type="submit"
+                                class="bg-primary hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md shadow-sm transition-colors text-sm">
+                                Filter
+                            </button>
+                        </div>
+                    </form>
 
                     <!-- Data Table -->
                     <div class="bg-surface-light rounded-lg shadow-sm border border-gray-200 overflow-hidden">

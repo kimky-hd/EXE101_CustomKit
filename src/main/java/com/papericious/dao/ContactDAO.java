@@ -92,4 +92,52 @@ public class ContactDAO {
         }
         return 0;
     }
+    public List<ContactMessage> searchMessages(String status, String fromDate, String toDate) {
+        List<ContactMessage> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT * FROM contact_message WHERE 1=1");
+        List<Object> params = new ArrayList<>();
+
+        if (status != null && !status.isEmpty() && !"ALL".equals(status)) {
+            sql.append(" AND status = ?");
+            params.add(status);
+        }
+
+        if (fromDate != null && !fromDate.isEmpty()) {
+            sql.append(" AND created_at >= ?");
+            params.add(Timestamp.valueOf(fromDate + " 00:00:00"));
+        }
+
+        if (toDate != null && !toDate.isEmpty()) {
+            sql.append(" AND created_at <= ?");
+            params.add(Timestamp.valueOf(toDate + " 23:59:59"));
+        }
+
+        sql.append(" ORDER BY created_at DESC");
+
+        try (Connection conn = dbContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+            
+            for (int i = 0; i < params.size(); i++) {
+                ps.setObject(i + 1, params.get(i));
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    ContactMessage msg = new ContactMessage();
+                    msg.setId(rs.getInt("id"));
+                    msg.setFullName(rs.getString("full_name"));
+                    msg.setEmail(rs.getString("email"));
+                    msg.setSubject(rs.getString("subject"));
+                    msg.setMessage(rs.getString("message"));
+                    msg.setStatus(rs.getString("status"));
+                    msg.setAccountId(rs.getObject("account_id", Integer.class));
+                    msg.setCreatedAt(rs.getTimestamp("created_at"));
+                    list.add(msg);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }
