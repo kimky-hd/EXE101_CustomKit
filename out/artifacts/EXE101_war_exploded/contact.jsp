@@ -68,7 +68,7 @@
         </head>
 
         <body class="bg-background-light dark:bg-background-dark font-display text-doodle-black dark:text-white">
-            <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden pt-24 md:pt-28">
+            <div id="pageRoot" class="relative flex min-h-screen w-full flex-col overflow-x-hidden pt-24 md:pt-28">
                 <jsp:include page="common/header.jsp" />
 
                 <!-- Main Content -->

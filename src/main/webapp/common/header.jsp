@@ -125,3 +125,5 @@
             modal.classList.remove('flex');
         }
     </script>
+
+    <jsp:include page="auth_modal.jsp" />
