@@ -43,15 +43,26 @@ public class ContactAdminServlet extends HttpServlet {
         String idStr = req.getParameter("id");
 
         if (idStr != null && !idStr.isEmpty()) {
-            int id = Integer.parseInt(idStr);
-            
-            if ("updateStatus".equals(action)) {
-                String newStatus = req.getParameter("status"); // NEW, READ, REPLIED
-                if (newStatus != null) {
-                    contactDAO.updateStatus(id, newStatus);
+            try {
+                int id = Integer.parseInt(idStr);
+
+                if ("updateStatus".equals(action)) {
+                    String newStatus = req.getParameter("status"); // NEW, READ, REPLIED
+                    if (newStatus != null) {
+                        contactDAO.updateStatus(id, newStatus);
+                    }
+                    
+                    String redirect = req.getParameter("redirect");
+                    if ("detail".equals(redirect)) {
+                        resp.sendRedirect(req.getContextPath() + "/admin/contact-details?id=" + id);
+                        return;
+                    }
+
+                } else if ("delete".equals(action)) {
+                    contactDAO.deleteMessage(id);
                 }
-            } else if ("delete".equals(action)) {
-                contactDAO.deleteMessage(id);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
             }
         }
         

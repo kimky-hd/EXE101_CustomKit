@@ -108,6 +108,9 @@
                                             Date</th>
                                         <th scope="col" class="relative px-6 py-3"><span class="sr-only">Actions</span>
                                         </th>
+                                        <th scope="col"
+                                            class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            DET</th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
@@ -173,13 +176,23 @@
                                                                     class="material-symbols-outlined text-[20px]">delete</span>
                                                             </button>
                                                         </form>
+                                                        </form>
+                                                    </td>
+                                                    <td
+                                                        class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                                        <a href="${pageContext.request.contextPath}/admin/contact-details?id=${msg.id}"
+                                                            class="text-gray-400 hover:text-primary transition-colors inline-flex items-center align-middle"
+                                                            title="View Details">
+                                                            <span
+                                                                class="material-symbols-outlined text-[24px]">chevron_right</span>
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
                                         </c:when>
                                         <c:otherwise>
                                             <tr>
-                                                <td colspan="5" class="px-6 py-10 text-center text-gray-500">
+                                                <td colspan="6" class="px-6 py-10 text-center text-gray-500">
                                                     <span
                                                         class="material-symbols-outlined text-4xl mb-2 text-gray-300">inbox</span>
                                                     <p>No messages found.</p>

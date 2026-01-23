@@ -140,4 +140,29 @@ public class ContactDAO {
         }
         return list;
     }
+
+    public ContactMessage getMessageById(int id) {
+        String sql = "SELECT * FROM contact_message WHERE id = ?";
+        try (Connection conn = dbContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    ContactMessage msg = new ContactMessage();
+                    msg.setId(rs.getInt("id"));
+                    msg.setFullName(rs.getString("full_name"));
+                    msg.setEmail(rs.getString("email"));
+                    msg.setSubject(rs.getString("subject"));
+                    msg.setMessage(rs.getString("message"));
+                    msg.setStatus(rs.getString("status"));
+                    msg.setAccountId(rs.getObject("account_id", Integer.class));
+                    msg.setCreatedAt(rs.getTimestamp("created_at"));
+                    return msg;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
