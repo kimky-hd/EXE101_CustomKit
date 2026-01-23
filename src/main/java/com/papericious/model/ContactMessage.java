@@ -8,6 +8,7 @@ public class ContactMessage {
     private String email;
     private String subject;
     private String message;
+    private String status; // NEW, READ, REPLIED
     private Integer accountId; // Can be null
     private Timestamp createdAt;
 
@@ -60,6 +61,14 @@ public class ContactMessage {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Integer getAccountId() {

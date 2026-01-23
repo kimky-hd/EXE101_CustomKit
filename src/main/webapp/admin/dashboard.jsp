@@ -86,27 +86,31 @@
                     <!-- Fiori Tile Grid -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                         <!-- Tile 1: Customer Mailbox (Critical) -->
-                        <div
-                            class="group relative flex flex-col justify-between h-44 p-4 bg-surface-light dark:bg-surface-dark rounded-lg shadow-tile hover:shadow-tile-hover hover:border-primary/50 border border-transparent transition-all cursor-pointer ring-1 ring-black/5 dark:ring-white/10">
-                            <div class="flex flex-col">
-                                <h3 class="font-semibold text-gray-900 dark:text-white leading-tight">Hộp thư khách hàng
-                                </h3>
-                                <p class="text-xs text-gray-500 mt-1">Inbox &amp; Requests</p>
-                            </div>
-                            <div class="flex items-end justify-between mt-auto">
-                                <span
-                                    class="material-symbols-outlined text-gray-400 dark:text-gray-500 text-[32px] group-hover:text-primary transition-colors">mail</span>
-                                <!-- Notification Badge -->
+                        <a href="${pageContext.request.contextPath}/admin/contacts" class="block">
+                            <div
+                                class="group relative flex flex-col justify-between h-44 p-4 bg-surface-light dark:bg-surface-dark rounded-lg shadow-tile hover:shadow-tile-hover hover:border-primary/50 border border-transparent transition-all cursor-pointer ring-1 ring-black/5 dark:ring-white/10">
+                                <div class="flex flex-col">
+                                    <h3 class="font-semibold text-gray-900 dark:text-white leading-tight">Hộp thư khách
+                                        hàng</h3>
+                                    <p class="text-xs text-gray-500 mt-1">Inbox &amp; Requests</p>
+                                </div>
+                                <div class="flex items-end justify-between mt-auto">
+                                    <span
+                                        class="material-symbols-outlined text-gray-400 dark:text-gray-500 text-[32px] group-hover:text-primary transition-colors">mail</span>
+                                    <!-- Notification Badge -->
+                                    <c:if test="${unreadCount > 0}">
+                                        <div
+                                            class="flex items-center justify-center min-w-[28px] h-7 px-2 rounded-full bg-primary text-white text-sm font-bold shadow-sm">
+                                            ${unreadCount}
+                                        </div>
+                                    </c:if>
+                                </div>
+                                <!-- Hover Line Top -->
                                 <div
-                                    class="flex items-center justify-center min-w-[28px] h-7 px-2 rounded-full bg-primary text-white text-sm font-bold shadow-sm">
-                                    3
+                                    class="absolute top-0 left-0 w-full h-1 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left rounded-t-lg">
                                 </div>
                             </div>
-                            <!-- Hover Line Top -->
-                            <div
-                                class="absolute top-0 left-0 w-full h-1 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left rounded-t-lg">
-                            </div>
-                        </div>
+                        </a>
                         <!-- Tile 2: User Management -->
                         <div
                             class="group relative flex flex-col justify-between h-44 p-4 bg-surface-light dark:bg-surface-dark rounded-lg shadow-tile hover:shadow-tile-hover border border-transparent transition-all cursor-pointer ring-1 ring-black/5 dark:ring-white/10">
