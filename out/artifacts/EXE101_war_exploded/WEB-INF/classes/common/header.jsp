@@ -34,10 +34,17 @@
                                     <%= currentUser.getFullName() %>
                                 </span>
 
-                                <button onclick="showLogoutModal()"
-                                    class="bg-primary text-white font-black px-3 py-1 rounded-lg shadow-hard transition-all text-xs uppercase hover:bg-red-700">
-                                    Đăng xuất
-                                </button>
+                                <% if ("ADMIN".equalsIgnoreCase(currentUser.getRole())) { %>
+                                    <a href="${pageContext.request.contextPath}/admin/dashboard"
+                                        class="bg-doodle-black text-white px-2 py-1 rounded text-xs uppercase font-bold hover:bg-gray-800 transition-colors">
+                                        Admin
+                                    </a>
+                                    <% } %>
+
+                                        <button onclick="showLogoutModal()"
+                                            class="bg-primary text-white font-black px-3 py-1 rounded-lg shadow-hard transition-all text-xs uppercase hover:bg-red-700">
+                                            Đăng xuất
+                                        </button>
                             </div>
                             <% } %>
                 </div>
