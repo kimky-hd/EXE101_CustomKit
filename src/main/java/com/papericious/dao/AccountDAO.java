@@ -52,6 +52,49 @@ public class AccountDAO {
 
         String passwordHash = PasswordUtil.hashPassword(plainPassword);
 
+        return executeInsert(email, passwordHash, fullName, phone, sql);
+    }
+
+    public Account createGoogleAccount(String email, String fullName, String picture) throws SQLException {
+        String sql = "INSERT INTO account (email, password_hash, full_name, role, status) " +
+                "VALUES (?, ?, ?, ?, ?)";
+        // Use a placeholder for password_hash that won't match any real password hash
+        String passwordHash = "GOOGLE_LOGIN";
+
+        try (Connection conn = dbContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            ps.setString(1, email);
+            ps.setString(2, passwordHash);
+            ps.setString(3, fullName);
+            ps.setString(4, "USER");
+            ps.setString(5, "ACTIVE");
+
+            int affected = ps.executeUpdate();
+            if (affected == 0) {
+                throw new SQLException("Creating account failed, no rows affected.");
+            }
+
+            try (ResultSet keys = ps.getGeneratedKeys()) {
+                if (keys.next()) {
+                    int id = keys.getInt(1);
+                    Account acc = new Account();
+                    acc.setId(id);
+                    acc.setEmail(email);
+                    acc.setPasswordHash(passwordHash);
+                    acc.setFullName(fullName);
+                    acc.setRole("USER");
+                    acc.setStatus("ACTIVE");
+                    acc.setCreatedAt(LocalDateTime.now());
+                    acc.setUpdatedAt(LocalDateTime.now());
+                    return acc;
+                }
+            }
+        }
+        throw new SQLException("Creating google account failed, no ID obtained.");
+    }
+
+    private Account executeInsert(String email, String passwordHash, String fullName, String phone, String sql) throws SQLException {
         try (Connection conn = dbContext.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
