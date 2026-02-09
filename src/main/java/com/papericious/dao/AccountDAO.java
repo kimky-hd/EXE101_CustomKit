@@ -132,7 +132,7 @@ public class AccountDAO {
 
     public java.util.List<Account> findAll() throws SQLException {
         java.util.List<Account> accounts = new java.util.ArrayList<>();
-        String sql = "SELECT * FROM account ORDER BY created_at DESC";
+        String sql = "SELECT * FROM account ORDER BY created_at ASC";
         
         try (Connection conn = dbContext.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);

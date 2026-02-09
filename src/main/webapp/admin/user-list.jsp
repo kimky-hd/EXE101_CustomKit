@@ -90,6 +90,58 @@
                             </div>
                         </c:if>
 
+                        <!-- Filter Controls -->
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <!-- Search Box -->
+                                <div class="md:col-span-1">
+                                    <label for="searchInput" class="block text-sm font-medium text-gray-700 mb-2">
+                                        <span class="material-symbols-outlined text-[18px] align-middle">search</span>
+                                        Search
+                                    </label>
+                                    <input type="text" id="searchInput" placeholder="Name, email, or phone..."
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm">
+                                </div>
+
+                                <!-- Role Filter -->
+                                <div>
+                                    <label for="roleFilter" class="block text-sm font-medium text-gray-700 mb-2">
+                                        <span class="material-symbols-outlined text-[18px] align-middle">badge</span>
+                                        Role
+                                    </label>
+                                    <select id="roleFilter"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm">
+                                        <option value="">All Roles</option>
+                                        <option value="ADMIN">Admin</option>
+                                        <option value="USER">User</option>
+                                    </select>
+                                </div>
+
+                                <!-- Status Filter -->
+                                <div>
+                                    <label for="statusFilter" class="block text-sm font-medium text-gray-700 mb-2">
+                                        <span
+                                            class="material-symbols-outlined text-[18px] align-middle">toggle_on</span>
+                                        Status
+                                    </label>
+                                    <select id="statusFilter"
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm">
+                                        <option value="">All Status</option>
+                                        <option value="ACTIVE">Active</option>
+                                        <option value="INACTIVE">Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Results Counter -->
+                            <div class="mt-3 pt-3 border-t border-gray-200">
+                                <p class="text-sm text-gray-600">
+                                    Showing <span id="visibleCount" class="font-semibold text-primary">0</span> of
+                                    <span id="totalCount" class="font-semibold">0</span> users
+                                </p>
+                            </div>
+                        </div>
+
                         <!-- Data Table -->
                         <div class="bg-surface-light rounded-lg shadow-sm border border-gray-200 overflow-hidden">
                             <div class="overflow-x-auto">
@@ -353,6 +405,65 @@
                                 closeModal();
                             }
                         }
+
+                        // ========== FILTER FUNCTIONALITY ==========
+                        function applyFilters() {
+                            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+                            const roleFilter = document.getElementById('roleFilter').value;
+                            const statusFilter = document.getElementById('statusFilter').value;
+
+                            const rows = document.querySelectorAll('tbody tr');
+                            let visibleCount = 0;
+                            let totalCount = 0;
+
+                            rows.forEach(row => {
+                                // Skip empty state row
+                                if (row.querySelector('td[colspan]')) {
+                                    return;
+                                }
+
+                                totalCount++;
+
+                                // Get row data
+                                const cells = row.querySelectorAll('td');
+                                const fullName = cells[1]?.querySelector('.text-sm.font-medium')?.textContent.toLowerCase() || '';
+                                const email = cells[1]?.querySelector('.text-xs.text-gray-500')?.textContent.toLowerCase() || '';
+                                const phone = cells[1]?.querySelectorAll('.text-xs')[1]?.textContent.toLowerCase() || '';
+                                const role = cells[2]?.textContent.trim() || '';
+                                const status = cells[3]?.textContent.trim() || '';
+
+                                // Apply filters
+                                const matchesSearch = !searchTerm ||
+                                    fullName.includes(searchTerm) ||
+                                    email.includes(searchTerm) ||
+                                    phone.includes(searchTerm);
+
+                                const matchesRole = !roleFilter || role === roleFilter;
+                                const matchesStatus = !statusFilter || status === statusFilter;
+
+                                // Show/hide row
+                                if (matchesSearch && matchesRole && matchesStatus) {
+                                    row.style.display = '';
+                                    visibleCount++;
+                                } else {
+                                    row.style.display = 'none';
+                                }
+                            });
+
+                            // Update counter
+                            document.getElementById('visibleCount').textContent = visibleCount;
+                            document.getElementById('totalCount').textContent = totalCount;
+                        }
+
+                        // Attach event listeners
+                        document.addEventListener('DOMContentLoaded', function () {
+                            document.getElementById('searchInput').addEventListener('input', applyFilters);
+                            document.getElementById('roleFilter').addEventListener('change', applyFilters);
+                            document.getElementById('statusFilter').addEventListener('change', applyFilters);
+
+                            // Initialize counter
+                            applyFilters();
+                        });
                     </script>
                 </body>
 
