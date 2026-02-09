@@ -132,26 +132,15 @@ public class AccountDAO {
 
     public java.util.List<Account> findAll() throws SQLException {
         java.util.List<Account> accounts = new java.util.ArrayList<>();
-        String sql = "SELECT * FROM account";
-        System.out.println("AccountDAO.findAll: Executing query: " + sql);
+        String sql = "SELECT * FROM account ORDER BY created_at DESC";
         
         try (Connection conn = dbContext.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             
-            System.out.println("Query executed. Iterating results...");
-            int count = 0;
             while (rs.next()) {
-                count++;
-                try {
-                    accounts.add(mapRow(rs));
-                } catch (Exception e) {
-                    System.out.println("Error mapping row " + count + ": " + e.getMessage());
-                    e.printStackTrace();
-                    // Don't throw here, skip bad rows but continue
-                }
+                accounts.add(mapRow(rs));
             }
-            System.out.println("Found " + count + " accounts.");
         } 
         return accounts;
     }
