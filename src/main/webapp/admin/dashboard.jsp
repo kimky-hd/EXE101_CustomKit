@@ -112,18 +112,25 @@
                             </div>
                         </a>
                         <!-- Tile 2: User Management -->
-                        <div
-                            class="group relative flex flex-col justify-between h-44 p-4 bg-surface-light dark:bg-surface-dark rounded-lg shadow-tile hover:shadow-tile-hover border border-transparent transition-all cursor-pointer ring-1 ring-black/5 dark:ring-white/10">
-                            <div class="flex flex-col">
-                                <h3 class="font-semibold text-gray-900 dark:text-white leading-tight">User Management
-                                </h3>
-                                <p class="text-xs text-gray-500 mt-1">Manage Agents</p>
+                        <a href="${pageContext.request.contextPath}/admin/user-list.jsp" class="block">
+                            <div
+                                class="group relative flex flex-col justify-between h-44 p-4 bg-surface-light dark:bg-surface-dark rounded-lg shadow-tile hover:shadow-tile-hover border border-transparent transition-all cursor-pointer ring-1 ring-black/5 dark:ring-white/10">
+                                <div class="flex flex-col">
+                                    <h3 class="font-semibold text-gray-900 dark:text-white leading-tight">User
+                                        Management
+                                    </h3>
+                                    <p class="text-xs text-gray-500 mt-1">Manage Agents</p>
+                                </div>
+                                <div class="flex items-end justify-end mt-auto">
+                                    <span
+                                        class="material-symbols-outlined text-gray-400 dark:text-gray-500 text-[32px] group-hover:text-primary transition-colors">badge</span>
+                                </div>
+                                <!-- Hover Line Top -->
+                                <div
+                                    class="absolute top-0 left-0 w-full h-1 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left rounded-t-lg">
+                                </div>
                             </div>
-                            <div class="flex items-end justify-end mt-auto">
-                                <span
-                                    class="material-symbols-outlined text-gray-400 dark:text-gray-500 text-[32px] group-hover:text-primary transition-colors">badge</span>
-                            </div>
-                        </div>
+                        </a>
                         <!-- Tile 3: Call Logs -->
                         <div
                             class="group relative flex flex-col justify-between h-44 p-4 bg-surface-light dark:bg-surface-dark rounded-lg shadow-tile hover:shadow-tile-hover border border-transparent transition-all cursor-pointer ring-1 ring-black/5 dark:ring-white/10">

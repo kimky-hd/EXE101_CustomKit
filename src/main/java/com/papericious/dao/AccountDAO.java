@@ -130,6 +130,80 @@ public class AccountDAO {
         throw new SQLException("Creating account failed, no ID obtained.");
     }
 
+    public java.util.List<Account> findAll() throws SQLException {
+        java.util.List<Account> accounts = new java.util.ArrayList<>();
+        String sql = "SELECT * FROM account";
+        System.out.println("AccountDAO.findAll: Executing query: " + sql);
+        
+        try (Connection conn = dbContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            
+            System.out.println("Query executed. Iterating results...");
+            int count = 0;
+            while (rs.next()) {
+                count++;
+                try {
+                    accounts.add(mapRow(rs));
+                } catch (Exception e) {
+                    System.out.println("Error mapping row " + count + ": " + e.getMessage());
+                    e.printStackTrace();
+                    // Don't throw here, skip bad rows but continue
+                }
+            }
+            System.out.println("Found " + count + " accounts.");
+        } 
+        return accounts;
+    }
+
+    public Account findById(int id) {
+        String sql = "SELECT * FROM account WHERE id = ?";
+        try (Connection conn = dbContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return mapRow(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean update(Account account) throws SQLException {
+        String sql = "UPDATE account SET full_name = ?, phone = ?, role = ?, status = ?, updated_at = NOW() WHERE id = ?";
+        try (Connection conn = dbContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, account.getFullName());
+            ps.setString(2, account.getPhone());
+            ps.setString(3, account.getRole());
+            ps.setString(4, account.getStatus());
+            ps.setInt(5, account.getId());
+            return ps.executeUpdate() > 0;
+        }
+    }
+
+    public boolean delete(int id) throws SQLException {
+        String sql = "DELETE FROM account WHERE id = ?";
+        try (Connection conn = dbContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            return ps.executeUpdate() > 0;
+        }
+    }
+    
+    public boolean updateStatus(int id, String status) throws SQLException {
+        String sql = "UPDATE account SET status = ?, updated_at = NOW() WHERE id = ?";
+        try (Connection conn = dbContext.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, status);
+            ps.setInt(2, id);
+            return ps.executeUpdate() > 0;
+        }
+    }
+
     private Account mapRow(ResultSet rs) throws SQLException {
         Account acc = new Account();
         acc.setId(rs.getInt("id"));
@@ -140,13 +214,22 @@ public class AccountDAO {
         acc.setRole(rs.getString("role"));
         acc.setStatus(rs.getString("status"));
 
-        Timestamp created = rs.getTimestamp("created_at");
-        Timestamp updated = rs.getTimestamp("updated_at");
-        if (created != null) {
-            acc.setCreatedAt(created.toLocalDateTime());
+        try {
+            Timestamp created = rs.getTimestamp("created_at");
+            if (created != null) {
+                acc.setCreatedAt(created.toLocalDateTime());
+            }
+        } catch (SQLException e) {
+            // Column may not exist, ignore
         }
-        if (updated != null) {
-            acc.setUpdatedAt(updated.toLocalDateTime());
+
+        try {
+            Timestamp updated = rs.getTimestamp("updated_at");
+            if (updated != null) {
+                acc.setUpdatedAt(updated.toLocalDateTime());
+            }
+        } catch (SQLException e) {
+            // Column may not exist, ignore
         }
         return acc;
     }
